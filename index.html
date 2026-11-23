@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A minimal personal portfolio.">
+  <title>KS — Personal Portfolio</title>
+  <style>
+    :root {
+      --bg: #0b0d10;
+      --panel: #12161b;
+      --text: #edf1f5;
+      --muted: #98a3af;
+      --line: rgba(255,255,255,.09);
+      --accent: #a7f3d0;
+      --accent-dark: #14382d;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: radial-gradient(ellipse at 75% 0%, rgba(72,130,108,.12), transparent 36rem), var(--bg);
+      color: var(--text);
+      font-family: Inter, system-ui, sans-serif;
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: 100%; margin: 0; padding: 0 5%; }
+    nav {
+      min-height: 76px; display: flex; align-items: center;
+      justify-content: space-between; border-bottom: 1px solid var(--line);
+    }
+    .brand { font-weight: 750; font-size: 1.3rem; letter-spacing: -.04em; }
+    .brand span { color: var(--accent); }
+    .navlinks { display: flex; gap: 27px; color: var(--muted); font-size: .9rem; }
+    .navlinks a:hover { color: var(--accent); }
+    .hero {
+      min-height: 85vh; display: flex; flex-direction: column;
+      justify-content: center; padding: 70px 0;
+    }
+    .eyebrow {
+      color: var(--accent); text-transform: uppercase;
+      letter-spacing: .18em; font-size: .75rem; font-weight: 700;
+    }
+    h1 { font-size: clamp(3.5rem, 8vw, 7rem); line-height: .99; letter-spacing: -.075em; margin: 22px 0; }
+    h1 .soft { color: #7f8b96; }
+    .intro { color: var(--muted); font-size: clamp(1rem, 2vw, 1.2rem); max-width: 650px; }
+    .actions { display: flex; gap: 12px; margin-top: 32px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 9px; padding: 12px 19px;
+      border-radius: 8px; font-size: .9rem; font-weight: 650;
+      border: 1px solid var(--line); transition: .2s; cursor: pointer;
+    }
+    .btn:hover { transform: translateY(-3px); }
+    .btn.primary { background: var(--accent); color: #0a1712; border-color: var(--accent); }
+    .btn.secondary { color: var(--text); background: rgba(255,255,255,.025); }
+    section { width: 100%; padding: 75px 0; border-top: 1px solid var(--line); }
+    .section-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      gap: 20px; margin-bottom: 35px;
+    }
+    h2 { font-size: 1.8rem; letter-spacing: -.045em; margin: 0; }
+    .section-note { color: var(--muted); font-size: .85rem; }
+    .about-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 60px; }
+    .about-copy { color: var(--muted); font-size: 1.05rem; max-width: 750px; margin: 0; }
+    .info-card, .skill-card, .project, .education-card, .meme-card {
+      background: linear-gradient(145deg, rgba(255,255,255,.045), rgba(255,255,255,.018));
+      border: 1px solid var(--line); border-radius: 13px;
+    }
+    .info-card { padding: 25px; }
+    .info-row {
+      display: flex; justify-content: space-between; gap: 16px;
+      padding: 12px 0; border-bottom: 1px solid var(--line); font-size: .9rem;
+    }
+    .info-row:last-child { border: 0; }
+    .info-row span:first-child { color: var(--muted); }
+    .info-row span:last-child { text-align: right; }
+    /* EDUCATION */
+    .education-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .education-card { padding: 28px; position: relative; overflow: hidden; }
+    .education-card::before {
+      content: ""; position: absolute; inset: 0 auto 0 0; width: 3px;
+      background: var(--accent); opacity: .8;
+    }
+    .education-level {
+      color: var(--accent); text-transform: uppercase; letter-spacing: .13em;
+      font-size: .72rem; font-weight: 750;
+    }
+    .education-card h3 { margin: 13px 0 5px; font-size: 1.2rem; }
+    .education-card p { color: var(--muted); margin: 0; font-size: .9rem; }
+    .education-status { display: inline-block; margin-top: 18px; color: var(--muted); font-size: .78rem; }
+    .skills { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .skill-card { padding: 25px; min-height: 140px; transition: .2s; }
+    .skill-card:hover, .project:hover, .education-card:hover, .meme-card:hover {
+      transform: translateY(-4px); border-color: rgba(167,243,208,.4);
+    }
+    .skill-icon { color: var(--accent); font-size: 1.3rem; margin-bottom: 15px; }
+    .skill-card strong { display: block; font-size: 1rem; }
+    .skill-card small { color: var(--muted); font-size: .82rem; }
+    .projects { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .project { padding: 30px; min-height: 210px; transition: .2s; }
+    .project-top { display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: .8rem; }
+    .project h3 { margin: 25px 0 10px; font-size: 1.2rem; }
+    .project p { color: var(--muted); font-size: .9rem; margin: 0; }
+    .tag { color: var(--accent); background: var(--accent-dark); padding: 5px 10px; border-radius: 5px; }
+    .contact {
+      display: flex; justify-content: space-between; align-items: center; gap: 25px;
+      padding: 35px; border: 1px solid var(--line); border-radius: 13px;
+      background: linear-gradient(120deg, rgba(167,243,208,.08), rgba(255,255,255,.015));
+    }
+    .contact p { color: var(--muted); margin: 5px 0 0; font-size: .95rem; }
+    /* MEME GALLERY */
+    .meme-section { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+    .meme-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .meme-card { padding: 12px; overflow: hidden; transition: .2s; }
+    .meme-card img {
+      width: 100%; height: 330px; display: block; object-fit: contain;
+      background: #090b0e; border-radius: 8px;
+    }
+    .meme-caption { text-align: center; color: var(--muted); font-size: .82rem; margin: 12px 4px 3px; }
+    .meme-placeholder {
+      height: 330px; display: grid; place-items: center; text-align: center;
+      padding: 20px; color: #73808b; background: #090b0e; border-radius: 8px;
+      border: 1px dashed rgba(255,255,255,.12);
+    }
+    footer {
+      padding: 30px 0 40px; color: #697580; font-size: .8rem;
+      display: flex; justify-content: space-between; gap: 15px; border-top: 1px solid var(--line);
+    }
+    @media (max-width: 900px) {
+      .meme-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .skills { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 700px) {
+      .wrap { padding: 0 20px; }
+      nav { min-height: 66px; }
+      .navlinks { gap: 12px; font-size: .78rem; }
+      .hero { min-height: 75vh; }
+      .about-grid, .education-grid, .projects { grid-template-columns: 1fr; gap: 22px; }
+      .skills { grid-template-columns: repeat(2, 1fr); }
+      .contact { align-items: flex-start; flex-direction: column; }
+      .meme-section { min-height: 100svh; }
+      .meme-grid { grid-template-columns: 1fr; }
+      .meme-card img, .meme-placeholder { height: 300px; }
+      footer { flex-direction: column; }
+    }
+    @media (max-width: 390px) {
+      .navlinks { gap: 8px; }
+      .navlinks a { font-size: .72rem; }
+      .skills { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="#home">Khoirul Syah<span>.</span></a>
+      <div class="navlinks">
+        <a href="#about">About</a>
+        <a href="#education">Education</a>
+        <a href="#skills">Skills</a>
+        <a href="#work">Work</a>
+        <!-- <a href="#meme">Meme</a> -->
+      </div>
+    </nav>
+
+    <main>
+      <header class="hero" id="home">
+        <div class="eyebrow">Personal portfolio</div>
+        <h1>Building skills.<br><span class="soft">Solving problems.</span></h1>
+        <p class="intro">
+          An Informatics Engineering student interested in technology,
+          networking, and practical problem-solving. Always learning, one step at a time.
+        </p>
+        <div class="actions">
+          <a class="btn primary" href="#work">Explore my work ↗</a>
+          <a class="btn secondary" href="#about">More about me</a>
+        </div>
+      </header>
+
+      <section id="about">
+        <div class="section-head">
+          <h2>A little about me</h2>
+          <span class="section-note">01 / About</span>
+        </div>
+        <div class="about-grid">
+          <p class="about-copy">
+            I had a technical interest in computer and network engineering since i was young,
+            and i am currently pursuing studies in Informatics Engineering. 
+            I enjoy understanding how various systems work, solving problems, 
+            and expanding my knowledge through hands-on, by self-taught practice.
+          </p>
+          <div class="info-card">
+            <div class="info-row"><span>Focus</span><span>IT &amp; Technology</span></div>
+            <div class="info-row"><span>Education</span><span> Undergraduate College 3rd year</span></div>
+            <div class="info-row"><span>Background</span><span>Computer &amp; Network Engineering</span></div>
+            <div class="info-row"><span>Status</span><span>Learning &amp; growing</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="education">
+        <div class="section-head">
+          <h2>Education</h2>
+          <span class="section-note">02 / Academic journey</span>
+        </div>
+        <div class="education-grid">
+          <article class="education-card">
+            <div class="education-level">Vocational High School</div>
+            <h3>SMK — Computer &amp; Network Engineering</h3>
+            <p>Technical foundation in computer systems, networking, LAN/WAN, and troubleshooting.</p>
+            <span class="education-status">Graduated</span>
+          </article>
+          <article class="education-card">
+            <div class="education-level">Undergraduate</div>
+            <h3>Bachelor's Degree — Informatics Engineering</h3>
+            <p>Universitas Indraprasta PGRI (UNINDRA)</p>
+            <span class="education-status">Currently studying</span>
+          </article>
+        </div>
+      </section>
+
+      <section id="skills">
+        <div class="section-head">
+          <h2>Skills &amp; interests</h2>
+          <span class="section-note">03 / What I do</span>
+        </div>
+        <div class="skills">
+          <div class="skill-card"><div class="skill-icon">⌘</div><strong>Networking</strong><small>LAN / WAN fundamentals</small></div>
+          <div class="skill-card"><div class="skill-icon">⚙</div><strong>Troubleshooting</strong><small>Software &amp; system issues</small></div>
+          <div class="skill-card"><div class="skill-icon">▤</div><strong>Productivity</strong><small>Word, Excel &amp; PowerPoint</small></div>
+          <div class="skill-card"><div class="skill-icon">〈/〉</div><strong>Programming</strong><small>Academic fundamentals</small></div>
+        </div>
+      </section>
+
+      <section id="work">
+        <div class="section-head">
+          <h2>Selected work</h2>
+          <span class="section-note">04 / Practice</span>
+        </div>
+        <div class="projects">
+          <article class="project">
+            <div class="project-top"><span>01 — Networking</span><span class="tag">Practice</span></div>
+            <h3>Network setup &amp; troubleshooting</h3>
+            <p>Hands-on learning around basic LAN/WAN setup, connectivity, and diagnosing common network issues.</p>
+          </article>
+          <article class="project">
+            <div class="project-top"><span>02 — Tinkerer</span><span class="tag">Learning</span></div>
+            <h3>Tech Tinkerer</h3>
+            <p>An Informatics Engineering student and tech tinkerer interested in networking, system exploration, and practical problem-solving. Always learning by breaking and fixing things.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="contact">
+        <div class="contact">
+          <div>
+            <h2>Let's connect.</h2>
+            <p>Open to learning, collaboration, and new opportunities.</p>
+          </div>
+          <a class="btn secondary" href="https://api.whatsapp.com/send/?phone=6281224487873">Contact me ↗</a>
+        </div>
+      </section>
+
+      <section class="meme-section" id="meme">
+        <div class="section-head">
+          <h2>Meme corner.</h2>
+          <span class="section-note">05 / Entertainment</span>
+        </div>
+        <div class="meme-grid">
+          <article class="meme-card">
+            <img src="meme1.jpg" alt="Meme 1" onerror="this.style.display='none'; this.nextElementSibling.hidden=false;">
+            <!-- <div class="meme-placeholder" hidden>Add image: meme1.jpg</div> -->
+            <p class="meme-caption">Jangan terlalu serius bacanya.</p>
+          </article>
+          <article class="meme-card">
+            <img src="meme2.jpg" alt="Meme 2" onerror="this.style.display='none'; this.nextElementSibling.hidden=false;">
+            <!-- <div class="meme-placeholder" hidden>Add image: meme2.jpg</div> -->
+            <p class="meme-caption">Santai santai</p>
+          <!-- </article>
+          <article class="meme-card"> -->
+            <!-- <img src="meme3.jpg" alt="Meme 3" onerror="this.style.display='none'; this.nextElementSibling.hidden=false;">
+            <div class="meme-placeholder" hidden>Add image: meme3.jpg</div>
+            <p class="meme-caption">Meme caption goes here.</p>
+          </article>
+          <article class="meme-card">
+            <img src="meme4.jpg" alt="Meme 4" onerror="this.style.display='none'; this.nextElementSibling.hidden=false;">
+            <div class="meme-placeholder" hidden>Add image: meme4.jpg</div>
+            <p class="meme-caption">Meme caption goes here.</p>
+          </article>
+          <article class="meme-card">
+            <img src="meme5.jpg" alt="Meme 5" onerror="this.style.display='none'; this.nextElementSibling.hidden=false;">
+            <div class="meme-placeholder" hidden>Add image: meme5.jpg</div>
+            <p class="meme-caption">Meme caption goes here.</p>
+          </article>
+          <article class="meme-card">
+            <img src="meme6.jpg" alt="Meme 6" onerror="this.style.display='none'; this.nextElementSibling.hidden=false;">
+            <div class="meme-placeholder" hidden>Add image: meme6.jpg</div>
+            <p class="meme-caption">Meme caption goes here.</p> -->
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>© 2026 KS. Personal portfolio.</span>
+      <span>Designed to keep things simple.</span>
+    </footer>
+  </div>
+</body>
+</html>
